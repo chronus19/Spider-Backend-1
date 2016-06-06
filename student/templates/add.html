@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Student</title>
+<link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body style='background-color:#0060FF;'>
+
+<br/><br/>
+<center><h1>Add New Student</h1></center>
+<br/>
+
+	<div id='formholder' >
+	
+	{% if error %}
+	<center style='color:red;'>Please fill the form correctly. <br/> {% if errorMsg %} {{errorMsg}}{% endif %}</center>
+	{% endif %}
+	
+		<form action='' method='POST'> 
+		    {% csrf_token %}
+			<label id='flbl' for='rollno' > Roll Number : </label>
+			<input type='text' id='in' name='rollno' maxlength='9' required> </input><br/>
+			
+			<label  id='flbl' for='name' > Full Name : </label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='text' id='in' name='name' maxlength='30' required> </input><br/>
+			
+			<label  id='flbl' for='dept' > Department : </label>&nbsp;&nbsp;
+			<select id='in' name="dept">
+					<option selected='selected' value="CSE">CSE</option>
+					<option value="MECH">MECH</option>
+					<option value="CIVIL">CIVIL</option>
+					<option value="ICE">ICE</option>
+					<option value="CHEM">CHEM</option>
+					<option value="EEE">EEE</option>
+					<option value="MME">MME</option>
+					<option value="PROD">PROD</option>
+					<option value="ECE">ECE</option>
+			</select>
+			<br/>
+			
+			<label  id='flbl' for='email' > E-mail : </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='text' id='in' name='email' maxlength='100' required> </input><br/>
+			
+			<label  id='flbl' for='address' > Address : </label><br/>
+			<textarea name='address' rows='4' cols='32' maxlength='180' required></textarea><br/>
+			
+			<label  id='flbl' for='aboutme' > About me : </label><br/>
+			<textarea name='address' rows='4' cols='32' maxlength='500' required></textarea><br/><br/>
+			
+		    <center> <input type='submit' style='font-size:20px;' value='Submit'></input> </center>
+		</form>
+		
+	</div>
+
+</body>
+
+</html>

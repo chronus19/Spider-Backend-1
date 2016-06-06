@@ -28,9 +28,10 @@ pip install validate_email
 If you have the above requisites, you may follow the given steps :- 
 1) Clone the repository on a local folder.
 2) For setting up your database connections, open 'mysite\settings.py'. In the 'DATABASES' section, 
-   set the NAME as your database name (make sure that it already exists), set the USER and PASSWORD as you username and password for setting up the connection with the database, and similarly set the HOST and PORT for the MySQL server. 
+   set the NAME as your database name (make sure that it already exists), set the USER and PASSWORD as you username and
+   password for setting up the connection with the database, and similarly set the HOST and PORT for the MySQL server. 
      The default values are :-
-		'NAME': 'spider',
+	'NAME': 'spider',
         'USER' : 'root',
         'PASSWORD' : 'password',
         'HOST' : 'localhost',
@@ -45,4 +46,5 @@ If you have the above requisites, you may follow the given steps :-
    (OR) 
    Run the script runserver.bat (if you are on Windows)
    
-If this executes without errors, then your server is up and running on port 8000. You can view it by opening 'localhost:8000' in your browser. 
+If this executes without errors, then your server is up and running on port 8000. You can view it by opening 
+'localhost:8000' in your browser. 

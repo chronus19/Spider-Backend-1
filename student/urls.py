@@ -6,6 +6,7 @@ urlpatterns = [
       #url(r'^$', views.loginpage , name='LoginPage'),
       #url(r'^register/$', views.register),
       url(r'^$', TemplateView.as_view(template_name="select.html")),
-      url(r'^add/$', views.add),
-      url(r'^view/$', views.view),
+      url(r'^add/$', views.add_student),
+      url(r'^view/$', views.view_student),
+      url(r'^edit/$', views.edit_student),
       ]

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta  name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Student</title>
+<link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body style='background-color:#0060FF;'>
+
+<br/><br/>
+<center><h1>Edit Student</h1></center>
+<br/>
+
+	<div id='formholder' >
+	
+	{% if error %}
+	<center style='color:red;'>Please fill the form correctly. <br/> {% if errorMsg %} {{errorMsg}}{% endif %}</center>
+	{% endif %}
+	
+		<form action='' method='POST'> 
+		    {% csrf_token %}
+			<label id='flbl' for='rollno' > Roll Number : </label>
+			<input type='text' id='in' name='rollno' maxlength='9' readonly value="{{ rollno }}" > </input>
+			<br/>
+			
+			<label  id='flbl' for='name' > Full Name : </label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='text' id='in' name='name' maxlength='30' required value="{{ name }}"> </input><br/>
+			
+			<label  id='flbl' for='dept' > Department : </label>&nbsp;&nbsp;
+			<select id='in' name="dept">
+					<option {% if dept == 'CSE' %}selected{% endif %} value="CSE">CSE</option>
+					<option {% if dept == 'MECH' %}selected{% endif %} value="MECH">MECH</option>
+					<option {% if dept == 'CIVIL' %}selected{% endif %} value="CIVIL">CIVIL</option>
+					<option {% if dept == 'ICE' %}selected{% endif %} value="ICE">ICE</option>
+					<option {% if dept == 'CHEM' %}selected{% endif %} value="CHEM">CHEM</option>
+					<option {% if dept == 'EEE' %}selected{% endif %} value="EEE">EEE</option>
+					<option {% if dept == 'MME' %}selected{% endif %} value="MME">MME</option>
+					<option {% if dept == 'PROD' %}selected{% endif %} value="PROD">PROD</option>
+					<option {% if dept == 'ECE' %}selected{% endif %} value="ECE">ECE</option>
+			</select>
+			<br/>
+			
+			<label  id='flbl' for='email' > E-mail : </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='text' id='in' name='email' maxlength='100' value="{{ email }}" required> </input><br/>
+			
+			<label  id='flbl' for='address' > Address : </label><br/>
+			<textarea name='address' rows='4' cols='32' maxlength='180' required>{{ address }}</textarea><br/>
+			
+			<label  id='flbl' for='aboutme' > About me : </label><br/>
+			<textarea name='aboutme' rows='4' cols='32' maxlength='500' required>{{ aboutme }}</textarea><br/><br/>
+			
+            <label  id='flbl' for='passcode' > Passcode : </label>&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type='text' id='in' name='passcode' maxlength='5' required > </input><br/>
+
+		    <center> <input type='submit' style='font-size:20px;' value='Submit'></input> </center>
+		</form>
+		
+	</div>
+
+</body>
+
+</html>

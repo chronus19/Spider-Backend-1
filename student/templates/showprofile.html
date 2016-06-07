@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" >
+<title>Student's Profile</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="text-align:center; background-color: #FFFF99;">
+
+<br><br><br>
+<h1>{{ name }}'s Profile</h1>
+<br><br>
+{% if success %} <h2> Changed successfully !! </h2> {% endif %}
+<br>
+
+<div style="margin:auto;width:600px;">
+<center style='font-size:20px;'> 
+<table style='border:1px solid black;'>
+<tbody>
+<tr> 
+    <td style='width:180px;'><b> Roll Number </b> </td>
+    <td> {{ rollno }} </td>
+</tr>
+<tr> 
+    <td> <b> Name </b> </td>
+    <td> {{ name }} </td>
+</tr>
+<tr> 
+    <td> <b> Department </b> </td>
+    <td> {{ dept }} </td>
+</tr>
+<tr> 
+    <td> <b> E-Mail </b> </td>
+    <td> {{ email }} </td>
+</tr>
+<tr> 
+    <td> <b> Address </b> </td>
+    <td> {{ address }} </td>
+</tr>
+<tr> 
+    <td> <b> About Me </b> </td>
+    <td> {{ aboutme }} </td>
+</tr>
+</tbody>
+</table>
+
+    <br>
+    <a href='/edit/?rollno={{ rollno }}'>Edit</a>
+
+</center>
+</div>
+
+
+
+</body>
+
+</html>

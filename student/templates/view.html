@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" >
+<title>View Student</title>
+<link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="background-color:#FFCC66;text-align:center;">
+
+<br><br><br>
+<h1>View Student Profile</h1>
+<br><br>
+
+<div style="margin:auto;height:90px;width:200px;">
+<center>
+
+    {% if error %} 
+    <span style='color:red;'>
+         {{ errorMsg }}
+    </span>
+    {% endif %}
+
+    <h3>Enter Roll Number :- </h3>
+
+	<form method="get" action="">
+	<input name="rollno" type="text" maxlength="9">  <br><br>
+	<input type="submit" value="Search">
+	</form>
+	
+</center>
+</div>
+
+
+</body>
+
+</html>

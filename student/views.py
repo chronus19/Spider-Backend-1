@@ -24,20 +24,21 @@ def add_student(req):
         address = data.get('address','')
         aboutme = data.get('aboutme','')
                 
-        x = validate_data(data)
+        x = validate_data(data)         # Validate input data
         if x != 0:
             return render(req,'add.html',{'error':x,'errorMsg':errorMsg.get(x,''),})
         del data
 
-        if Student.objects.filter(rollno=rollno).exists():
+        if Student.objects.filter(rollno=rollno).exists():      # If Roll Number already exists
             return render(req,'add.html',{'error':'ExistsError','errorMsg':errorMsg.get('ExistsError',''),})
 
-        passcode = random_string();
+        passcode = random_string();             # Generate random passcode
 
         try:
             obj = Student.objects.create(name=name,rollno=rollno,dept=dept,email=email,address=address,aboutme=aboutme,passcode=passcode);
         except ValidationError:
             return render(req,'add.html',{'error':'ServerError','errorMsg':errorMsg.get('ServerError',''),})
+
         if obj is not None:
             return render(req,'success.html',{'passcode':passcode})       
         else:
@@ -51,23 +52,23 @@ def view_student(req):
                 return render(req,"view.html") 
           else:
                 rollno = req.GET.get('rollno','')        
-                if not(rollno.isdigit()) or len(rollno)!=9:
+                if not(rollno.isdigit()) or len(rollno)!=9:     # Validate input roll number  
                     return render(req,'view.html',{'error':'RollNoError','errorMsg':errorMsg.get('RollNoError',''),})
 
-                if Student.objects.filter(rollno=rollno).exists():
+                if Student.objects.filter(rollno=rollno).exists():    
                     student = list(Student.objects.filter(rollno=rollno))[0]
                     return render(req,'showprofile.html',{'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,})
-                else:
+                else:               # Requested roll number does not exist
                     return render(req,'view.html',{'error':'NotFoundError','errorMsg':errorMsg.get('NotFoundError',''),})
     else:
         return HttpResponse('<center><h1>View Students</h1></center>');
 
 def edit_student(req):
     if req.method=='GET':
-          if not req.GET.__contains__('rollno'):
+          if not req.GET.__contains__('rollno'):    
                 return redirect('/view/')
           rollno = req.GET.get('rollno','')
-          if Student.objects.filter(rollno=rollno).exists():
+          if Student.objects.filter(rollno=rollno).exists():    # If Roll Number exists, open the 'Edit Student' Page
                 student = list(Student.objects.filter(rollno=rollno))[0]
                 return render(req,'edit.html',{'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,})
           else:
@@ -82,12 +83,12 @@ def edit_student(req):
         address = data.get('address','')
         aboutme = data.get('aboutme','')
                 
-        x = validate_data(data)
+        x = validate_data(data)     # Validate Input Data
 
         if x!=0:
             return render(req,'edit.html',{'error':x,'errorMsg':errorMsg.get(x,''),'name':name,'rollno':rollno,'dept':dept,'email':email,'address':address,'aboutme':aboutme,})
 
-        if not Student.objects.filter(rollno=rollno,passcode=passcode).exists():
+        if not Student.objects.filter(rollno=rollno,passcode=passcode).exists():        # Checking if Roll number and Passcode match
             return HttpResponse('<center> <h2> Invalid credentials !! <br> <a href="/view/?rollno=%s">View Student</a> </h2></center>' % rollno)
         student = Student.objects.get(rollno=rollno,passcode=passcode)
         student.name = name
@@ -95,13 +96,13 @@ def edit_student(req):
         student.email = email
         student.address = address
         student.aboutme = aboutme
-        student.save()
-        return redirect('/view/?rollno=' + rollno)
+        student.save()              # save the updated information about the student
+        return redirect('/view/?rollno=' + rollno)   # Display updated information   
 
     else:
         return redirect('/view/')
 
-def validate_data(data):
+def validate_data(data):        # Function for validating input data from user
     name = data.get('name','')
     rollno = data.get('rollno','')
     dept = data.get('dept','')

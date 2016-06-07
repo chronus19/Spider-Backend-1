@@ -25,7 +25,7 @@ def add_student(req):
         aboutme = data.get('aboutme','')
                 
         x = validate_data(data)         # Validate input data
-        if x != 0:
+        if x != 0:          
             return render(req,'add.html',{'error':x,'errorMsg':errorMsg.get(x,''),})
         del data
 
@@ -34,21 +34,21 @@ def add_student(req):
 
         passcode = random_string();             # Generate random passcode
 
-        try:
+        try:                            # Create an object (like adding a row to the Student's Table)
             obj = Student.objects.create(name=name,rollno=rollno,dept=dept,email=email,address=address,aboutme=aboutme,passcode=passcode);
-        except ValidationError:
+        except ValidationError:         # If the object could not be created
             return render(req,'add.html',{'error':'ServerError','errorMsg':errorMsg.get('ServerError',''),})
 
         if obj is not None:
-            return render(req,'success.html',{'passcode':passcode})       
+            return render(req,'success.html',{'passcode':passcode})     # Display a success page, with passcode      
         else:
             return render(req,"add.html");
     else:
-        return render(req,'select.html')
+        return render(req,'select.html')    
 
 def view_student(req):
     if req.method=='GET':
-          if not req.GET.__contains__('rollno'):
+          if not req.GET.__contains__('rollno'):    # If 'rollno' not in GET parameter
                 return render(req,"view.html") 
           else:
                 rollno = req.GET.get('rollno','')        
@@ -57,23 +57,25 @@ def view_student(req):
 
                 if Student.objects.filter(rollno=rollno).exists():    
                     student = list(Student.objects.filter(rollno=rollno))[0]
-                    return render(req,'showprofile.html',{'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,})
+                    data = {'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,}
+                    return render(req,'showprofile.html',data)
                 else:               # Requested roll number does not exist
                     return render(req,'view.html',{'error':'NotFoundError','errorMsg':errorMsg.get('NotFoundError',''),})
     else:
         return HttpResponse('<center><h1>View Students</h1></center>');
 
 def edit_student(req):
-    if req.method=='GET':
+    if req.method=='GET':       # For editing data
           if not req.GET.__contains__('rollno'):    
                 return redirect('/view/')
           rollno = req.GET.get('rollno','')
           if Student.objects.filter(rollno=rollno).exists():    # If Roll Number exists, open the 'Edit Student' Page
                 student = list(Student.objects.filter(rollno=rollno))[0]
-                return render(req,'edit.html',{'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,})
+                data = {'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,}
+                return render(req,'edit.html',data)
           else:
                 return redirect('/view/')
-    elif req.method == 'POST':
+    elif req.method == 'POST':  # For updating data
         data = req.POST
         rollno = data.get('rollno','')
         passcode = data.get('passcode','')
@@ -88,8 +90,11 @@ def edit_student(req):
         if x!=0:
             return render(req,'edit.html',{'error':x,'errorMsg':errorMsg.get(x,''),'name':name,'rollno':rollno,'dept':dept,'email':email,'address':address,'aboutme':aboutme,})
 
-        if not Student.objects.filter(rollno=rollno,passcode=passcode).exists():        # Checking if Roll number and Passcode match
+        # Checking if Roll number and Passcode match
+        if not Student.objects.filter(rollno=rollno,passcode=passcode).exists():        
             return HttpResponse('<center> <h2> Invalid credentials !! <br> <a href="/view/?rollno=%s">View Student</a> </h2></center>' % rollno)
+
+        # Roll number and passcode match
         student = Student.objects.get(rollno=rollno,passcode=passcode)
         student.name = name
         student.dept = dept
@@ -134,7 +139,7 @@ def validate_data(data):        # Function for validating input data from user
     if dept not in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE']:
         return 'DeptError'
     
-    return 0
+    return 0    
     
 def random_string(size=5):
     chars = ascii_uppercase + digits.replace('0','') # Selecting from, and to remove confusion b/w O and 0

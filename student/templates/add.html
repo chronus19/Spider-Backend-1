@@ -6,13 +6,14 @@
 <title>Add Student</title>
 <link href="/static/css/style.css" rel="stylesheet">
 </head>
-<body style='background-color:#0060FF;'>
+<body style='background-color:#FEE795;'>
 
 <br/><br/>
-<center><h1>Add New Student</h1></center>
-<br/>
+	<center><h1>Add New Student</h1>
+    <h3> <a href='/view'>View Student</a> </h3>
+    </center>
 
-	<div id='formholder' >
+<div id='formholder' >
 	
 	{% if error %}
 	<center style='color:red;'>Please fill the form correctly. <br/> {% if errorMsg %} {{errorMsg}}{% endif %}</center>

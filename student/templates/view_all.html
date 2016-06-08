@@ -37,8 +37,23 @@ Page {{ all_students.number }} of {{ all_students.paginator.num_pages }}
 	<option selected='selected' value="asc">Ascending</option>
 	<option value="dsc">Descending</option>
 </select>
-<span style='margin-left:10px;'> </span>
-<input type='submit' value=' Sort '>
+<br>
+
+<label for='groupby'> Group By :- </label>
+<select name="groupby">
+					<option selected='selected' value="ALL">ALL</option>
+					<option  value="CSE">CSE</option>
+					<option value="MECH">MECH</option>
+					<option value="CIVIL">CIVIL</option>
+					<option value="ICE">ICE</option>
+					<option value="CHEM">CHEM</option>
+					<option value="EEE">EEE</option>
+					<option value="MME">MME</option>
+					<option value="PROD">PROD</option>
+					<option value="ECE">ECE</option>
+			</select>
+			<br><br>
+<input type='submit' value='Sort '>
 <br><br>
 </form>
 

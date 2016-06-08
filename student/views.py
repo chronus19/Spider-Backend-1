@@ -6,7 +6,7 @@ from random import choice
 from validate_email import validate_email
 from .models import Student
 from exceptions import *      # Custom exceptions
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 import re
 
 
@@ -113,21 +113,25 @@ def view_all(req):
     page_no = req.GET.get('page','1')
     sortby = req.GET.get('sortby','')
     order = req.GET.get('order','')
+    groupby = req.GET.get('groupby','')
 
     if sortby=='' and order=='' and req.session.__contains__('sortby') and req.session.__contains__('order'):
         sortby = req.session['sortby']
         order = req.session['order']
-        if order == 'dsc':
-            sortby = '-' + sortby
-        page_list = Paginator(Student.objects.all().order_by(sortby), 10)
+    if groupby =='' and req.session.__contains__('groupby'):
+        groupby = req.session['groupby']
+    elif groupby in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE']:
+        req.session['groupby'] = groupby
         
-    elif order in ['asc','dsc'] or sortby in ['rollno','name']:
+    if order in ['asc','dsc'] and sortby in ['rollno','name']:
         req.session['sortby'] = sortby
         req.session['order'] = order
         if order == 'dsc':
             sortby = '-' + sortby
-        page_list = Paginator(Student.objects.all().order_by(sortby), 10)
-
+        if groupby in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE']:
+            page_list = Paginator(Student.objects.filter(dept=groupby).order_by(sortby), 10)
+        else:
+            page_list = Paginator(Student.objects.all().order_by(sortby), 10)
     else:
         page_list = Paginator(Student.objects.all(), 10)
     

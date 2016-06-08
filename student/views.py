@@ -4,9 +4,10 @@ from django.core.exceptions import *
 from string import (ascii_uppercase,ascii_lowercase,digits)
 from random import choice
 from validate_email import validate_email
-import re
 from .models import Student
-from exceptions import *                # Custom exceptions
+from exceptions import *      # Custom exceptions
+from django.core.paginator import Paginator
+import re
 
 
 def add_student(req):
@@ -105,7 +106,18 @@ def edit_student(req):
 
 def view_all(req):
     all_students = list(Student.objects.all())
-    return render(req,'view_all.html',{'all_students':all_students,})
+    page_list = Paginator(all_students, 10)
+
+    page_no = req.GET.get('page','1')
+
+    try:
+        page = page_list.page(page_no)
+    except PageNotAnInteger:
+        page = page_list.page(1)
+    except EmptyPage:
+        page = page_list.page(page_list.num_pages)
+    
+    return render(req,'view_all.html',{'all_students':page,})
     
 def validate_data(data,new_student=1):        # Function for validating input data from user
     name = data.get('name','')

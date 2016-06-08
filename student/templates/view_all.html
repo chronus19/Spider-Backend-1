@@ -9,11 +9,17 @@
 
 <body style="text-align:center; background-color: #FFFF99;">
 
-<br><br>
+<br>
 <h1>All Students</h1>
 <br>
+
+<h3> 
+Page {{ all_students.number }} of {{ all_students.paginator.num_pages }}
+<br><br>
 <a href='/view/'>View another Student</a>
 <br>
+</h3>
+
 <br>
 {% if all_students|length == 0 %} <h2> The students' database is empty. </h2> 
 
@@ -43,7 +49,24 @@
 
 </tbody>
 </table>
+<br>
+<span> 
+{% if all_students.paginator.num_pages >= 1 %}
+Goto Page :- &nbsp;&nbsp;&nbsp;
+{% for i in all_students.paginator.page_range %}
 
+{% if i == all_students.number %} {{ i }} &nbsp;
+{% else %} 
+<a href='?page={{ i }}'>{{ i }}</a> &nbsp;
+{% endif %}
+
+{% endfor %}
+
+{% endif %}
+
+</span>
+
+<br><br><br>
 
 </center>
 </div>

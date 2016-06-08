@@ -41,7 +41,8 @@ def add_student(req):
         else:
             return render(req,"add.html");
     else:
-        return render(req,'select.html')    
+        return render(req,'select.html')
+    
 
 def view_student(req):
     if req.method=='GET':
@@ -60,6 +61,7 @@ def view_student(req):
                     return render(req,'view.html',{'error':1,'errorMsg':NotFoundError.message,})
     else:
         return HttpResponse('<center><h1>View Students</h1></center>');
+
 
 def edit_student(req):
     if req.method=='GET':       # For editing data, the existing fields of the form is populated with the stored data
@@ -105,11 +107,30 @@ def edit_student(req):
         return redirect('/view/')
 
 def view_all(req):
-    all_students = list(Student.objects.all())
-    page_list = Paginator(all_students, 10)
+    if req.method != 'GET':
+        return redirect('/view_all/')
 
     page_no = req.GET.get('page','1')
+    sortby = req.GET.get('sortby','')
+    order = req.GET.get('order','')
 
+    if sortby=='' and order=='' and req.session.__contains__('sortby') and req.session.__contains__('order'):
+        sortby = req.session['sortby']
+        order = req.session['order']
+        if order == 'dsc':
+            sortby = '-' + sortby
+        page_list = Paginator(Student.objects.all().order_by(sortby), 10)
+        
+    elif order in ['asc','dsc'] or sortby in ['rollno','name']:
+        req.session['sortby'] = sortby
+        req.session['order'] = order
+        if order == 'dsc':
+            sortby = '-' + sortby
+        page_list = Paginator(Student.objects.all().order_by(sortby), 10)
+
+    else:
+        page_list = Paginator(Student.objects.all(), 10)
+    
     try:
         page = page_list.page(page_no)
     except PageNotAnInteger:
@@ -119,6 +140,8 @@ def view_all(req):
     
     return render(req,'view_all.html',{'all_students':page,})
     
+
+
 def validate_data(data,new_student=1):        # Function for validating input data from user
     name = data.get('name','')
     rollno = data.get('rollno','')
@@ -151,6 +174,7 @@ def validate_data(data,new_student=1):        # Function for validating input da
         raise ExistsError
     
     return 0    
+
     
 def random_string(size=5):
     chars = ascii_uppercase + digits.replace('0','') # Selecting from, and to remove confusion b/w O and 0

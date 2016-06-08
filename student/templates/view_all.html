@@ -9,25 +9,42 @@
 
 <body style="text-align:center; background-color: #FFFF99;">
 
-<br>
 <h1>All Students</h1>
-<br>
 
 <h3> 
+<a href='/view/'>View another Student</a> <br><br>
 Page {{ all_students.number }} of {{ all_students.paginator.num_pages }}
-<br><br>
-<a href='/view/'>View another Student</a>
+
 <br>
 </h3>
 
-<br>
+
 {% if all_students|length == 0 %} <h2> The students' database is empty. </h2> 
 
 {% else %}
-<div style="margin:auto;width:600px;">
 <center style='font-size:20px;'> 
-<table style='border:1px solid black;'>
 
+<form action="" method="GET">
+<label for='sortby'> Sort By :- </label>
+<select name="sortby">
+	<option selected='selected' value="rollno">Roll Number</option>
+	<option value="name">Name</option>
+</select>
+
+<span style='margin-left:10px;'> </span>
+
+<select name="order">
+	<option selected='selected' value="asc">Ascending</option>
+	<option value="dsc">Descending</option>
+</select>
+<span style='margin-left:10px;'> </span>
+<input type='submit' value=' Sort '>
+<br><br>
+</form>
+
+<div style="margin:auto;width:600px;">
+
+<table style='border:1px solid black;'>
 <thead>
 <th> Roll Number </th>
 <th> Name </th>

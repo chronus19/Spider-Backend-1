@@ -51,6 +51,11 @@ tr {
   border-bottom: 1px solid black;
 } 
 
+th,td {
+	border-left: 1px solid black;
+	padding:5px;
+}
+
 table {
   border-collapse: collapse;
 } 

@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" >
+<title>All Students</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body style="text-align:center; background-color: #FFFF99;">
+
+<br><br>
+<h1>All Students</h1>
+<br>
+<a href='/view/'>View another Student</a>
+<br>
+<br>
+{% if all_students|length == 0 %} <h2> The students' database is empty. </h2> 
+
+{% else %}
+<div style="margin:auto;width:600px;">
+<center style='font-size:20px;'> 
+<table style='border:1px solid black;'>
+
+<thead>
+<th> Roll Number </th>
+<th> Name </th>
+<th> Department </th>
+<th> Options </th>
+</thead>
+
+<tbody>
+{% for i in all_students %}
+
+<tr> 
+    <td > {{ i.rollno }} </td>
+    <td > {{ i.name }} </td>
+    <td > {{ i.dept }} </td>
+    <td > <a href='/edit/?rollno={{ i.rollno }}'>Edit</a> </td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+</table>
+
+
+</center>
+</div>
+
+{% endif %}
+
+
+</body>
+
+</html>

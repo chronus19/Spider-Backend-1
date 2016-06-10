@@ -18,10 +18,6 @@ Page {{ all_students.number }} of {{ all_students.paginator.num_pages }}
 <br>
 </h3>
 
-
-{% if all_students|length == 0 %} <h2> The students' database is empty. </h2> 
-
-{% else %}
 <center style='font-size:20px;'> 
 
 <form action="" method="GET">
@@ -56,6 +52,13 @@ Page {{ all_students.number }} of {{ all_students.paginator.num_pages }}
 <input type='submit' value='Sort '>
 <br><br>
 </form>
+</center>
+
+{% if all_students|length == 0 %} <h2> The students' database is empty. </h2> 
+
+{% else %}
+<center style='font-size:20px;'> 
+
 
 <div style="margin:auto;width:600px;">
 

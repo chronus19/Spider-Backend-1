@@ -25,16 +25,15 @@ def add_student(req):
         try:
             validate_data(data)                 # Validate input data
         except Exception as e:
-            return render(req,'add.html',{'error':1,'errorMsg':e.message,})
+            err = e.message.split(':')
+            return render(req,'add.html',{'error':err[0],'errorMsg':err[1],})
         
         del data
 
         passcode = random_string();             # Generate random passcode
 
-        try:                                    # Create an object (like adding a row to the Student's Table)
-            obj = Student.objects.create(name=name,rollno=rollno,dept=dept,email=email,address=address,aboutme=aboutme,passcode=passcode);
-        except ValidationError as e:            # If the object could not be created
-            return render(req,'add.html',{'error':1,'errorMsg':e.message,})
+        # Create an object (like adding a row to the Student's Table)
+        obj = Student.objects.create(name=name,rollno=rollno,dept=dept,email=email,address=address,aboutme=aboutme,passcode=passcode);
 
         if obj is not None:
             return render(req,'success.html',{'passcode':passcode})     # Display a success page, with passcode      
@@ -51,14 +50,16 @@ def view_student(req):
           else:
                 rollno = req.GET.get('rollno','')        
                 if not(rollno.isdigit()) or len(rollno)!=9:     # Validate input roll number  
-                    return render(req,'view.html',{'error':1,'errorMsg':RollNoError.message,})
+                    err = RollNoError.message.split(':')
+                    return render(req,'view.html',{'error':err[0],'errorMsg':err[1],})
 
                 if Student.objects.filter(rollno=rollno).exists():    
                     student = list(Student.objects.filter(rollno=rollno))[0]
                     data = {'name':student.name,'rollno':student.rollno,'dept':student.dept,'email':student.email,'address':student.address,'aboutme':student.aboutme,}
                     return render(req,'showprofile.html',data)
                 else:               # Requested roll number does not exist
-                    return render(req,'view.html',{'error':1,'errorMsg':NotFoundError.message,})
+                    err = NotFoundError.message.split(':')
+                    return render(req,'view.html',{'error':err[0],'errorMsg':err[1],})
     else:
         return HttpResponse('<center><h1>View Students</h1></center>');
 
@@ -74,7 +75,7 @@ def edit_student(req):
                 return render(req,'edit.html',data)
           else:
                 return redirect('/view/')
-    elif req.method == 'POST':      # For updating data
+    elif req.method == 'POST':          # For updating data
         data = req.POST
         rollno = data.get('rollno','')
         passcode = data.get('passcode','')
@@ -87,7 +88,8 @@ def edit_student(req):
         try:
             validate_data(data,new_student=0)         # Validate input data
         except Exception as e:
-            return render(req,'edit.html',{'error':1,'errorMsg':e.message,'name':name,'rollno':rollno,'dept':dept,'email':email,'address':address,'aboutme':aboutme,})
+            err = e.message.split(':')
+            return render(req,'edit.html',{'error':err[0],'errorMsg':err[1],'name':name,'rollno':rollno,'dept':dept,'email':email,'address':address,'aboutme':aboutme,})
 
         # Checking if Roll number and Passcode match
         if not Student.objects.filter(rollno=rollno,passcode=passcode).exists():        
@@ -110,7 +112,7 @@ def view_all(req):
     if req.method != 'GET':
         return redirect('/view_all/')
 
-    page_no = req.GET.get('page','1')
+    page_no = req.GET.get('page','')
     sortby = req.GET.get('sortby','')
     order = req.GET.get('order','')
     groupby = req.GET.get('groupby','')
@@ -120,14 +122,14 @@ def view_all(req):
         order = req.session['order']
     if groupby =='' and req.session.__contains__('groupby'):
         groupby = req.session['groupby']
-    elif groupby in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE']:
+    elif groupby in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE','ALL']:
         req.session['groupby'] = groupby
         
     if order in ['asc','dsc'] and sortby in ['rollno','name']:
         req.session['sortby'] = sortby
         req.session['order'] = order
         if order == 'dsc':
-            sortby = '-' + sortby
+            sortby = '-' + sortby           
         if groupby in ['CSE','MECH','CIVIL','ICE','CHEM','MME','PROD','ECE','EEE']:
             page_list = Paginator(Student.objects.filter(dept=groupby).order_by(sortby), 10)
         else:

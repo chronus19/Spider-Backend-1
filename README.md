@@ -4,31 +4,31 @@ Spider Web Dev Inductions - Backend Task 1 (Student's Database)
 ** View this file in raw mode for better indentation and clarity. 
 
 GENERAL OVERVIEW
-
-#####
+  
+#####  
  SPIDER BACKEND TASK 1 
  This README.md file will be updated properly, once the project has been completed. 
- These are just for testing the individual parts of the task. 
-#####
+ These are just for testing the individual parts of the task.  
+#####  
 
  This is the first task for Spider WebDev Inductions (Backend). It is basically a Student Database Management System, that allows a user to add, view and edit the information about the students.   
- ( *NOTE :- Spare me for the design, positioning and colours of the site :p ... )
-
+ ( *NOTE :- Spare me for the design, positioning and colours of the site :p ... )  
+  
  ------------------------------------------------------------------------------------------------------
 
  MODULES USED AND BUILD INSTRUCTIONS :-  
-Python Version used = 2.7.10
 
-Django version used = 1.9.4
-Get it by using the command :-
-pip install django
-
-Database used = MySQL 5.7.12
-Get it on Windows :-
+Python Version used = 2.7.10  
+Django version used = 1.9.4    
+Get it by using the command :-  
+pip install django  
+  
+Database used = MySQL 5.7.12  
+Get it on Windows :-  
 pip install mysqlclient  
 pip install MySQL-python  
-
-Get it on Linux :-  
+  
+Get it on Linux :-   
 sudo apt-get install libmysqlclient-dev  
 sudo pip install MySQL-python  
   

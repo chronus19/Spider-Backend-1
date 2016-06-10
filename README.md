@@ -17,7 +17,7 @@ GENERAL OVERVIEW
 
  MODULES USED AND BUILD INSTRUCTIONS :-  
 
-Python Version used = 2.7.10  
+Python Version used = 2.7.10    
 Django version used = 1.9.4    
 Get it by using the command :-  
 pip install django  
